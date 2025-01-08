@@ -1,0 +1,8 @@
+{
+    "adult": [
+        {
+            "Type": "    Process",
+            "Details": "    {'Encoding': 'Label', 'Normalization': 'z-score'}"
+        }
+    ]
+}
