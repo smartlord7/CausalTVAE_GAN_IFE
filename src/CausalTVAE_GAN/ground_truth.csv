@@ -1,0 +1,9 @@
+dataset,qids,source
+adult,"[age, sex]","A Method for Finding Quasi-identifier of Single Structured Relational Data"
+mushroom,"[bruises?, stalk-shape, stalk-color-above-ring, population]","Learning quasi-identifiers for privacy-preserving exchanges a rough set theory approach"
+nursery,"[has_nurs, children, finance, social]","Learning quasi-identifiers for privacy-preserving exchanges a rough set theory approach"
+car,"[buying, persons, safety, eval]","Learning quasi-identifiers for privacy-preserving exchanges a rough set theory approach"
+heart+disease,"[age, sex]","F-Classify: Fuzzy Rule Based Classification Method for Privacy Preservation of Multiple Sensitive Attributes"
+diabetes,"[code, value]","Finding Quasi-identifiers for K-Anonymity Model by the Set of Cut-vertex"
+bank,"[age,job,education,marital]","A Method for Finding Quasi-identifier of Single Structured Relational Data"
+obesity,"[Gender, Height, Weight, family_history_with_overweight, MTRANS]", "A Method for Finding Quasi-identifier of Single Structured Relational Data"

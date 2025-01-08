@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Explanation Report</title>
+<style>
+body { font-family: Arial, sans-serif; font-size: 18px; line-height: 1.6; background-color: #f4f4f4; margin: 20px; }
+h1 { color: #333333; font-size: 28px; }
+h2 { color: #666666; font-size: 24px; margin-top: 20px; }
+h3 { color: #444444; font-size: 20px; margin-top: 15px; }
+p { font-size: 18px; margin-bottom: 10px; }
+table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+table, th, td { border: 1px solid #dddddd; padding: 10px; text-align: left; }
+th { background-color: #333333; color: #ffffff; }
+tr:nth-child(even) { background-color: #f9f9f9; }
+img { display: block; margin: 20px auto; max-width: 80%; height: auto; border: 1px solid #cccccc; padding: 10px; background-color: #ffffff; }
+ul { margin-top: 10px; }
+li { margin-bottom: 5px; }
+.highlight { background-color: #ffff99 !important; }
+</style>
+</head>
+<body>
+<h1>Explanation Report for Dataset: bank</h1>
+<p>This report provides a detailed explanation of how quasi-identifiers were identified in your dataset. Quasi-identifiers are attributes that, when combined, can potentially identify individuals. The report includes information on the methods used to detect these quasi-identifiers, their significance, and how various models and metrics contributed to this identification.</p>
+<h2>1. Quasi-Identifiers Selected</h2>
+<p><strong>Attributes:</strong> duration, campaign, pdays, balance</p>
+<h2>2. Neural Network Models</h2>
+<p>We employed several neural network models to analyze and identify quasi-identifiers. Here’s a detailed overview of each model and its role:</p>
+<ul>
+<li><strong>Variational Autoencoder (VAE):</strong> The VAE is a type of neural network designed to compress and then reconstruct data. It helps determine how well we can reconstruct each attribute from a simplified version. High reconstruction errors for an attribute suggest that it carries more unique or sensitive information.</li>
+<ul>
+<li><strong>Transformer Encoder with Multihead Attention:</strong> Within the VAE, we use a Transformer Encoder equipped with Multihead Attention mechanisms. This setup allows the model to simultaneously focus on different parts of the data and learn complex patterns and relationships. Multihead Attention enhances the model's ability to capture complex dependencies between attributes, improving reconstruction accuracy.</li>
+<li><strong>Causal Aggregation Layer:</strong> This layer incorporates causal information produced by causal discovery algorithms, such as GES (Greedy Equivalence Search) and PC (Peter-Clark), to understand and utilize the causal relationships between attributes. The Causal Aggregation Layer applies these causal relationships through an adjacency matrix to enhance the model's understanding of how different features interact and influence each other.</li>
+</ul>
+<li><strong>Generative Adversarial Network (GAN):</strong> The GAN consists of two components: a generator that creates synthetic data (in this case the VAE) and a discriminator that differentiates between real and synthetic data. This adversarial setup helps in producing realistic data samples, which are then analyzed to detect anomalies or unusual patterns that might reveal quasi-identifiers.</li>
+</ul>
+<h2>3. Reconstruction Errors</h2>
+<p>Reconstruction errors indicate how well we can recreate an attribute from its compressed version. Large errors suggest that the attribute is more unique and could be important for identifying individuals:</p>
+<img src='images/bank_reconstruction_errors.png' alt='Reconstruction Errors'>
+<p><strong>Legend:</strong> The histogram shows the distribution of reconstruction errors. Attributes with larger errors are likely to be more significant for identification.</p>
+<h2>4. Causal Graph Insights</h2>
+<p>The causal graph visualizes the influence relationships between attributes. Stronger connections suggest more significant relationships:</p>
+<img src='images/bank_causal_graph.png' alt='Causal Graph'>
+<p><strong>Legend:</strong> Lines in the graph represent the influence between attributes. Attributes with stronger connections (darker lines) might be more critical for identifying individuals.</p>
+<ul>
+<li>Attributes with more connections in the causal graph are likely to be significant in identifying individuals.</li>
+<li>The graph provides a visual representation of how attributes are interconnected, aiding in identifying key attributes.</li>
+</ul>
+<h2>5. Isolation Forest Analysis</h2>
+<p>Isolation Forests were used to identify anomalies and unusual attributes. The analysis helps determine which attributes are more likely to be unique and important:</p>
+<ul>
+<li><strong>Isolation Scores:</strong> Attributes with higher isolation scores are considered more unusual or unique.</li>
+<li><strong>Weighted Votes:</strong> Attributes with higher votes are deemed more significant for identification.</li>
+</ul>
+<h2>7. Detailed Attribute Analysis</h2>
+<table>
+<tr><th>Attribute</th><th>Weighted Vote</th><th>Mean Reconstruction Error</th><th>Causal Importance</th></tr>
+<tr class=''><td>age</td><td>5.8350</td><td>1.0994</td><td>Low (9.1093)</td></tr>
+<tr class=''><td>job</td><td>0.0000</td><td>1.0575</td><td>Medium (9.4307)</td></tr>
+<tr class=''><td>marital</td><td>0.0000</td><td>1.1563</td><td>Medium (9.5799)</td></tr>
+<tr class=''><td>education</td><td>0.0000</td><td>1.0380</td><td>Medium (9.5668)</td></tr>
+<tr class=''><td>default</td><td>0.0000</td><td>1.1237</td><td>Low (6.2582)</td></tr>
+<tr class='highlight'><td>balance</td><td>7.8645</td><td>1.0093</td><td>Low (7.8357)</td></tr>
+<tr class=''><td>housing</td><td>0.0000</td><td>1.1606</td><td>Medium (9.6078)</td></tr>
+<tr class=''><td>loan</td><td>0.0000</td><td>1.3443</td><td>Low (8.5007)</td></tr>
+<tr class=''><td>contact</td><td>0.0000</td><td>1.0572</td><td>Medium (9.7481)</td></tr>
+<tr class=''><td>day</td><td>0.0000</td><td>1.7799</td><td>Low (7.0405)</td></tr>
+<tr class=''><td>month</td><td>0.0000</td><td>1.1190</td><td>High (10.0139)</td></tr>
+<tr class='highlight'><td>duration</td><td>8.9598</td><td>1.0333</td><td>High (11.8502)</td></tr>
+<tr class='highlight'><td>campaign</td><td>10.8581</td><td>1.0324</td><td>High (11.1898)</td></tr>
+<tr class='highlight'><td>pdays</td><td>10.8581</td><td>1.1398</td><td>High (10.2181)</td></tr>
+<tr class=''><td>previous</td><td>5.9202</td><td>1.0293</td><td>High (10.4767)</td></tr>
+<tr class=''><td>poutcome</td><td>5.8811</td><td>1.5005</td><td>High (11.4547)</td></tr>
+</table>
+<h2>8. Privacy Metrics</h2>
+<p>We calculated several metrics to evaluate the privacy impact of the identified quasi-identifiers:</p>
+<p><strong>Separation:</strong> 99.9997</p>
+<p><strong>Distinction:</strong> 99.4470</p>
+<p><strong>K-anonymity:</strong> 1.0056</p>
+<h2>9. Conclusion</h2>
+<p>This report outlines the process of identifying quasi-identifiers using advanced models and techniques. We analyzed reconstruction errors, causal relationships, and anomaly scores to pinpoint attributes that could potentially identify individuals. This comprehensive approach ensures a robust understanding of the dataset’s privacy risks and helps in safeguarding personal information while maintaining data utility.</p>
+</body>
+</html>
